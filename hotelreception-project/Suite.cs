@@ -17,5 +17,9 @@ namespace hotelreception_project {
             DailyValue = dailyValue;
         }
 
+        public override string ToString() {
+            return $"{SuiteType}, {Capacity}, {DailyValue}";
+        }
+
     }
 }
