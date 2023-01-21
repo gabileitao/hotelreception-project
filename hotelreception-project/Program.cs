@@ -9,15 +9,39 @@ namespace hotelreception_project {
             Console.WriteLine("Quantas pessoas se hospedarao: ");
             int guestsQuantity = int.Parse(Console.ReadLine());
 
-            Suite suite = SelectedSuite();
+            Suite suite = SelectedSuite(guestsQuantity);
 
+            Console.Clear();
 
+            List<Pessoa> guests = RegisterGuest(guestsQuantity);
 
-            Console.WriteLine(suite);
+            Console.WriteLine("Digite a quantidade de dias que ficarao hospedados: ");
+            int daysInTheRoom = int.Parse(Console.ReadLine());
+
+            Reserva booking = new Reserva(guests, suite, daysInTheRoom);
+
+            Console.WriteLine($"Numero de hospedes: {guestsQuantity}.");
+            Console.WriteLine($"Valor da estadia: {booking.GetPrice()}.");
 
         }
 
-        public static Suite SelectedSuite() {
+        public static List<Pessoa> RegisterGuest(int guests) {
+
+            List<Pessoa> guestList = new List<Pessoa>();
+            
+            for(int i = 0; i < guests; i++) {
+                Pessoa guest = new Pessoa();
+                Console.WriteLine("Digite o nome da pessoa: ");
+                guest.Name = Console.ReadLine();
+                Console.WriteLine("Digite o sobrenome da pessoa: ");
+                guest.LastName = Console.ReadLine();
+                guestList.Add(guest);
+            }
+
+            return guestList;
+        }
+
+        public static Suite SelectedSuite(int guestQuantity) {
 
             List<Suite> avaiableSuites = new List<Suite>();
 
@@ -44,7 +68,11 @@ namespace hotelreception_project {
                 chosenSuite = int.Parse(Console.ReadLine());
 
                 if (chosenSuite >= 1 && chosenSuite <= avaiableSuites.Count) {
-                    option = true;
+                    if (guestQuantity <= avaiableSuites[chosenSuite - 1].Capacity) {
+                        option = true;
+                    } else {
+                        Console.WriteLine("Quarto não comporta essa quantidade de pessoas. Escolha de novo.");
+                    }
                 } else {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Opção invalida. Selecione novamente.");

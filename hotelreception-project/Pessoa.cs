@@ -10,9 +10,8 @@ namespace hotelreception_project {
         public string Name;
         public string LastName;
 
-        public Pessoa(string name, string lastName) {
-            Name = name;
-            LastName = lastName;
+        public override string ToString() {
+            return $"{Name}, {LastName}";
         }
     }
 }
